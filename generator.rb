@@ -10,17 +10,9 @@ class Generator
     @key = key
   end
 
-  def get_key
-    @key
-  end
-
-  def get_counter
-    @counter
-  end
-
   def compute_raw
     # puts "counter size: #{get_counter.bytesize}"
-    OpenSSL::HMAC.digest('sha1', get_key, get_counter)
+    OpenSSL::HMAC.digest('sha1', @key, @counter)
   end
 
   def dynamic_truncation
