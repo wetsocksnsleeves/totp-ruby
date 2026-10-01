@@ -6,7 +6,9 @@ class Generator
 
   def initialize(key)
     # counter value, 8 byte big endian
-    @counter = [((Time.now.to_i - start_time) / time_step).floor].pack("Q>")
+    @time_now = Time.now.to_i
+    @counter = [((@time_now - start_time) / time_step).floor].pack("Q>")
+    @expiry = @time_now + time_step
     @key = key
   end
 
@@ -22,6 +24,7 @@ class Generator
   end
 
   def otp_value
-    dynamic_truncation % code_length
+    code = dynamic_truncation % code_length
+    { "code": code, "expiry": @expiry }
   end
 end
